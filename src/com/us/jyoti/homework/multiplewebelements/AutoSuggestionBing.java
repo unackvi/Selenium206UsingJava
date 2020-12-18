@@ -2,6 +2,7 @@ package com.us.jyoti.homework.multiplewebelements;
 
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,16 +11,24 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class AutoSuggestionBing {
 
-	public static void main(String[] args) throws InterruptedException {
+	/* ********************************************************************************** */
+	/* replaced thread.sleep with ImplicitlyWait as there are only calls to findElement() */
+	/* ********************************************************************************** */
+	
+	
+	public static void main(String[] args)  {
 		System.setProperty("webdriver.chrome.driver", "C:\\Selenium206\\chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://www.bing.com/");
+		
+		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+		
 		driver.manage().window().maximize();
 		driver.findElement(By.xpath("//input[@id='sb_form_q']")).sendKeys("selenium");
-		Thread.sleep(1000);
+//		Thread.sleep(1000);
 		
 		List<WebElement> listOfResults = driver.findElements(By.xpath("//li[contains(@query,'selenium')]"));
-		Thread.sleep(3000);		
+//		Thread.sleep(3000);		
 
 		//using for loop
 //		for(int i=0;i<listOfResults.size();i++) 
@@ -44,7 +53,12 @@ public class AutoSuggestionBing {
 		
 		
 		while(lit.hasNext()) {
-			Thread.sleep(1000);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			WebElement lListElement = lit.next();
 			System.out.println(lListElement.getText());
 			if(lListElement.getText().contains("supplement")) {

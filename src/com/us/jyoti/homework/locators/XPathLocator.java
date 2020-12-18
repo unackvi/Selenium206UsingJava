@@ -1,9 +1,17 @@
 package com.us.jyoti.homework.locators;
 
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+/* ********************************************************************************** */
+/* replaced thread.sleep with ExplicitlyWait                                         */
+/* 
+/* ********************************************************************************** */
 
 public class XPathLocator {
 	private WebDriver setURL(WebDriver driver1, String urlAdrress) {
@@ -16,25 +24,32 @@ public class XPathLocator {
 		WebDriver driver = new ChromeDriver();
 		driver = this.setURL(driver, "https://www.yahoo.com");
 		driver.manage().window().maximize();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		WebDriverWait wait = new WebDriverWait(driver,3);
+		wait.until(ExpectedConditions.titleContains("Yahoo"));
 		System.out.println(driver.getCurrentUrl());
-		driver.findElement(By.xpath("//a[@class='_yb_pf5jl']")).click();
+		driver.findElement(By.xpath("(//a[contains(text(), 'Sign in')])[1]")).click();
 		System.out.println(driver.getTitle());
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		driver.findElement(By.xpath("//a[@data-ylk='elm:link;elmt:secondary;mKey:login-landing-signup']")).click();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		// replaced thread.sleep with ExplicitlyWait 
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='createacc']")));
+		driver.findElement(By.xpath("//a[@id='createacc']")).click();
+		// just adding forced delay
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		// replaced thread.sleep with ExplicitlyWait 
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@autocomplete='given-name']")));
 		driver.findElement(By.xpath("//input[@autocomplete='given-name']")).sendKeys("Test");
 		driver.findElement(By.xpath("//input[@autocomplete='family-name']")).sendKeys("User");
 		driver.findElement(By.xpath("//input[@autocomplete='username']")).sendKeys("t.user69");
@@ -69,8 +84,9 @@ public class XPathLocator {
 		driver = this.setURL(driver, "https://opensource-demo.orangehrmlive.com/");
 		driver.manage().window().maximize();
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");
-		driver.findElement(By.xpath("")).sendKeys("admin123");
-		driver.findElement(By.xpath("")).click();
+		driver.findElement(By.xpath("//input[@id='txtPassword']")).sendKeys("admin123");
+		driver.findElement(By.xpath("//input[@type='submit']")).click();
+		// forced delay so no need to replace with explicit wait
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -87,6 +103,7 @@ public class XPathLocator {
 		driver.findElement(By.xpath("")).sendKeys("trainee");
 		driver.findElement(By.xpath("")).sendKeys("trainee");
 		driver.findElement(By.xpath("")).click();
+		// forced delay so no need to replace with explicit wait
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -149,15 +166,15 @@ public class XPathLocator {
 		System.setProperty("webdriver.chrome.driver", "C:\\Selenium206\\chromedriver.exe");
 		xLoc.yahoo();
 
-//		cssLoc.orangeHRM();
+		xLoc.orangeHRM();
+
+		xLoc.actiTime();
 //
-//		cssLoc.actiTime();
+//		xLoc.faceBook();
 //
-//		cssLoc.faceBook();
+//		xLoc.instaGram();
 //
-//		cssLoc.instaGram();
-//
-//		cssLoc.appTivoCRM();
+//		xLoc.appTivoCRM();
 
 	}
 
